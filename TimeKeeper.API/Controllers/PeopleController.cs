@@ -9,7 +9,7 @@ using TimeKeeper.Domain;
 
 namespace TimeKeeper.API.Controllers
 {
-    //[Authorize]
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class PeopleController : BaseController

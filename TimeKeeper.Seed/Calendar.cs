@@ -21,7 +21,7 @@ namespace TimeKeeper.Seed
                     DayType = (DayType)rawData.ReadInteger(row, 3),
                     Date = rawData.ReadDate(row, 4)
                 };
-                unit.Calendar.Insert(d);
+                await unit.Calendar.Insert(d);
                 await unit.Save();
                 Utility.dicDays.Add(oldId, d.Id);
                 N++;

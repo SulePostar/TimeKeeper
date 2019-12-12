@@ -21,7 +21,7 @@ namespace TimeKeeper.Seed
                     Hours = rawData.ReadDecimal(row, 2),
                     Description = rawData.ReadString(row, 1)
                 };
-                unit.Details.Insert(d);
+                await unit.Details.Insert(d);
                 N++;
                 if (N % 100 == 0)
                 {

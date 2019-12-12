@@ -8,10 +8,22 @@ namespace TimeKeeper.DAL
 {
     public class TimeContext : DbContext
     {
+        private string _type;
         private string _conStr;
-        public TimeContext() : base() { _conStr = "User ID=postgres; Password=osmanaga; Server=localhost; Port=5432; Database=tracker; Integrated Security=true; Pooling=true;"; }
-        public TimeContext(DbContextOptions<TimeContext> options) : base(options) { }
-        public TimeContext(string conStr) { _conStr = conStr; }
+        public TimeContext() : base()
+        {
+            _type = "PGS";
+            _conStr = "User ID=postgres; Password=osmanaga; Server=localhost; Port=5432; Database=tracker; Integrated Security=true; Pooling=true;";
+        }
+        public TimeContext(DbContextOptions<TimeContext> options) : base(options)
+        {
+            var x = options;
+        }
+        public TimeContext(string type, string conStr)
+        {
+            _type = type;
+            _conStr = conStr;
+        }
 
         public DbSet<Customer> Customers { get; set; }
         public DbSet<Day> Calendar { get; set; }
@@ -27,7 +39,14 @@ namespace TimeKeeper.DAL
         {
             if (_conStr != null)
             {
-                builder.UseNpgsql(_conStr);
+                if(_type == "SQL")
+                {
+                    builder.UseSqlServer(_conStr);
+                }
+                else
+                {
+                    builder.UseNpgsql(_conStr);
+                }
             }
             builder.UseLazyLoadingProxies(true);
             base.OnConfiguring(builder);

@@ -52,17 +52,27 @@ namespace TimeKeeper.API.Reports
             return result;
         }
 
-        public List<AnnualTimeModel> GetStored(int year)
+        public async Task<List<AnnualTimeModel>> GetStored(int year)
         {
             List<AnnualTimeModel> result = new List<AnnualTimeModel>();
             AnnualTimeModel total = new AnnualTimeModel { Project = new MasterModel { Id = 0, Name = "TOTAL" } };
-
-            var cmd = _unit.Context.Database.GetDbConnection().CreateCommand();
-            cmd.CommandType = CommandType.Text;
-            cmd.CommandText = $"select * from AnnualReport({year})";
-            if (cmd.Connection.State == ConnectionState.Closed) cmd.Connection.Open();
-            DbDataReader sql = cmd.ExecuteReader();
             List<AnnualRawModel> rawData = new List<AnnualRawModel>();
+            
+            var cmd = _unit.Context.Database.GetDbConnection().CreateCommand();
+            if (Startup.Configuration["Connection:Type"] == "SQL")
+            {
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.CommandText = $"AnnualReport";
+                cmd.Parameters.Add(new SqlParameter { ParameterName = "year", Value = year });
+            }
+            else
+            {
+                cmd.CommandType = CommandType.Text;
+                cmd.CommandText = $"select * from AnnualReport({year})";
+                if (cmd.Connection.State == ConnectionState.Closed) cmd.Connection.Open();
+            }
+            if (cmd.Connection.State == ConnectionState.Closed) cmd.Connection.Open();
+            DbDataReader sql = await cmd.ExecuteReaderAsync();
             if (sql.HasRows)
             {
                 while (sql.Read())
@@ -75,7 +85,10 @@ namespace TimeKeeper.API.Reports
                         Hours = sql.GetDecimal(3)
                     });
                 }
+            }
 
+            if (rawData.Count != 0)
+            {
                 AnnualTimeModel atm = new AnnualTimeModel { Project = new MasterModel { Id = 0 } };
                 foreach (AnnualRawModel item in rawData)
                 {

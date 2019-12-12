@@ -16,7 +16,7 @@ namespace TimeKeeper.API.Handlers
             Unit = new UnitOfWork(ctx);
         }
 
-        protected override async Task HandleRequirementAsync(AuthorizationHandlerContext context, IsMemberRequirement requirement)
+        protected override Task HandleRequirementAsync(AuthorizationHandlerContext context, IsMemberRequirement requirement)
         {
             if (context.Resource is AuthorizationFilterContext filterContext)
             {
@@ -24,11 +24,11 @@ namespace TimeKeeper.API.Handlers
                 if (role == "admin" || role == "lead")
                 {
                     context.Succeed(requirement);
-                    return;
+                    return Task.FromResult(true);
                 }
             }
             context.Fail();
-            return;
+            return Task.FromResult(false);
         }
     }
 }

@@ -21,7 +21,7 @@ namespace TimeKeeper.Seed
                     HourlyRate = rawData.ReadDecimal(row, 3),
                     MonthlyRate = rawData.ReadDecimal(row, 4)
                 };
-                unit.Roles.Insert(r);
+                await unit.Roles.Insert(r);
                 await unit.Save();
                 Utility.dicRole.Add(oldId, r.Id);
                 N++;

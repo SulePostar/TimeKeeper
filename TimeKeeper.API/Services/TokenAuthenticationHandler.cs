@@ -27,7 +27,7 @@ namespace TimeKeeper.API.Services
             _access = new AccessHandler(_unit);
         }
 
-        protected override async Task<AuthenticateResult> HandleAuthenticateAsync()
+        protected override Task<AuthenticateResult> HandleAuthenticateAsync()
         {
             if (Request.Headers.ContainsKey("Authorization"))
             {
@@ -35,14 +35,14 @@ namespace TimeKeeper.API.Services
                 {
                     var authHeader = AuthenticationHeaderValue.Parse(Request.Headers["Authorization"]);
                     AuthenticationTicket ticket = _access.CheckToken(authHeader.Parameter, Scheme.Name, Response.Headers);
-                    return AuthenticateResult.Success(ticket);
+                    return Task.FromResult(AuthenticateResult.Success(ticket));
                 }
                 catch
                 {
-                    return AuthenticateResult.Fail("Invalid authorization header");
+                    return Task.FromResult(AuthenticateResult.Fail("Invalid authorization header"));
                 }
             }
-            return AuthenticateResult.Fail("No credentials present");
+            return Task.FromResult(AuthenticateResult.Fail("No credentials present"));
         }
     }
 }

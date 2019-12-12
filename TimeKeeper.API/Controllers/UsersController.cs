@@ -12,7 +12,7 @@ using TimeKeeper.Domain;
 
 namespace TimeKeeper.API.Controllers
 {
-    //[Authorize(AuthenticationSchemes = "TokenAuthentication")]
+    [Authorize(AuthenticationSchemes = "TokenAuthentication")]
     [Route("api/[controller]")]
     [ApiController]
     public class UsersController : BaseController

@@ -20,7 +20,7 @@ namespace TimeKeeper.Seed
                     Name = rawData.ReadString(row, 2),
                     Description = rawData.ReadString(row, 3)
                 };
-                unit.Teams.Insert(t);
+                await unit.Teams.Insert(t);
                 await unit.Save();
                 Utility.dicTeam.Add(oldId, t.Id);
                 N++;

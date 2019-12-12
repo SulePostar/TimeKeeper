@@ -30,7 +30,7 @@ namespace TimeKeeper.Seed
                     Status = (EmployeeStatus)rawData.ReadInteger(row, 11),
                     Position = rawData.ReadString(row, 12)
                 };
-                unit.People.Insert(e);
+                await unit.People.Insert(e);
                 User u = new User
                 {
                     Name = e.FullName,
@@ -38,7 +38,7 @@ namespace TimeKeeper.Seed
                     Username = e.Image,
                     Password = "$ch00L"
                 };
-                unit.Users.Insert(u);
+                await unit.Users.Insert(u);
                 await unit.Save();
                 Utility.dicEmpl.Add(oldId, e.Id);
                 N++;

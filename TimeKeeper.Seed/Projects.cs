@@ -27,7 +27,7 @@ namespace TimeKeeper.Seed
                     Pricing = (Pricing)rawData.ReadInteger(row, 10),
                     Amount = rawData.ReadDecimal(row, 11)
                 };
-                unit.Projects.Insert(p);
+                await unit.Projects.Insert(p);
                 await unit.Save();
                 Utility.dicProj.Add(oldId, p.Id);
                 N++;

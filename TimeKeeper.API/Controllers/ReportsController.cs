@@ -38,40 +38,40 @@ namespace TimeKeeper.API.Controllers
 
         [HttpGet]
         [Route("api/monthly/{year}/{month}")]
-        public IActionResult GetMonthly(int year, int month)
+        public async Task<IActionResult> GetMonthly(int year, int month)
         {
             DateTime start = DateTime.Now;
-            var mr = (new MonthlyReport(Unit)).GetMonthly(year, month);
+            var mr = await (new MonthlyReport(Unit)).GetMonthly(year, month);
             DateTime final = DateTime.Now;
             return Ok(new { dif = (final - start), mr });
         }
 
         [HttpGet]
         [Route("api/stored/{year}/{month}")]
-        public IActionResult GetStored(int year, int month)
+        public async Task<IActionResult> GetStored(int year, int month)
         {
             DateTime start = DateTime.Now;
-            var mr = (new MonthlyReport(Unit)).GetStored(year, month);
+            var mr =  await (new MonthlyReport(Unit)).GetStored(year, month);
             DateTime final = DateTime.Now;
             return Ok(new { dif = (final - start), mr });
         }
 
         [HttpGet]
         [Route("api/annual/{year}")]
-        public IActionResult GetAnnual(int year)
+        public async Task<IActionResult> GetAnnual(int year)
         {
             DateTime start = DateTime.Now;
-            var ar = (new AnnualReport(Unit)).GetAnnual(year);
+            var ar = await (new AnnualReport(Unit)).GetAnnual(year);
             DateTime final = DateTime.Now;
             return Ok(new { dif = (final - start), ar });
         }
 
         [HttpGet]
         [Route("api/stored/{year}")]
-        public IActionResult GetStored(int year)
+        public async Task<IActionResult> GetStored(int year)
         {
             DateTime start = DateTime.Now;
-            var ar = (new AnnualReport(Unit)).GetStored(year);
+            var ar = await (new AnnualReport(Unit)).GetStored(year);
             DateTime final = DateTime.Now;
             return Ok(new { dif = (final - start), ar });
         }

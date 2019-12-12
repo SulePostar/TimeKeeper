@@ -51,8 +51,14 @@ namespace TimeKeeper.API
             });
             services.AddScoped<IAuthorizationHandler, IsMemberHandler>();
 
-            string connectionString = Configuration["ConnectionStrings:Local"];
-            services.AddDbContext<TimeContext>(o => o.UseNpgsql(connectionString));
+            if(Configuration["Connection:Type"] == "SQL")
+            {
+                services.AddDbContext<TimeContext>(o => o.UseSqlServer(Configuration["Connection:MsSql"]));
+            }
+            else
+            {
+                services.AddDbContext<TimeContext>(o => o.UseNpgsql(Configuration["Connection:PgSql"]));
+            }
 
             services.AddAuthentication("TokenAuthentication")
                     .AddScheme<AuthenticationSchemeOptions, TokenAuthenticationHandler>("TokenAuthentication", null);

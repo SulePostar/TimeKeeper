@@ -28,7 +28,7 @@ namespace TimeKeeper.Seed
                 c.Address.ZipCode = rawData.ReadString(row, 8);
                 c.Address.City = rawData.ReadString(row, 9);
                 c.Address.Country = rawData.ReadString(row, 9);
-                unit.Customers.Insert(c);
+                await unit.Customers.Insert(c);
                 await unit.Save();
                 Utility.dicCust.Add(oldId, c.Id);
                 N++;

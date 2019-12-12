@@ -10,9 +10,9 @@ namespace TimeKeeper.Test.Repositories
         [Test, Order(1)]
         public async Task TestInsert()
         {
-            Database.teams.Insert(new Team { Name = "Green" });
-            Database.teams.Insert(new Team { Name = "Yellow" });
-            Database.teams.Insert(new Team { Name = "Black" });
+            await Database.teams.Insert(new Team { Name = "Green" });
+            await Database.teams.Insert(new Team { Name = "Yellow" });
+            await Database.teams.Insert(new Team { Name = "Black" });
             int n = await Database.Context.SaveChangesAsync();
             Assert.AreEqual(3, n);
         }
@@ -45,7 +45,7 @@ namespace TimeKeeper.Test.Repositories
         public async Task TestUpdate()
         {
             Team team = new Team { Id = 3, Name = "Rainbow" };
-            Database.teams.Update(team, team.Id);
+            await Database.teams.Update(team, team.Id);
             int n = await Database.Context.SaveChangesAsync();
             Assert.AreEqual(1, n);
         }
@@ -53,7 +53,7 @@ namespace TimeKeeper.Test.Repositories
         [Test, Order(6)]
         public async Task TestDelete()
         {
-            Database.teams.Delete(3);
+            await Database.teams.Delete(3);
             int n = await Database.Context.SaveChangesAsync();
             Assert.AreEqual(1, n);
         }

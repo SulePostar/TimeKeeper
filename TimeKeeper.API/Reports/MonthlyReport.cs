@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Common;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Threading.Tasks;
 using TimeKeeper.API.Factory;
@@ -73,13 +74,12 @@ namespace TimeKeeper.API.Reports
                 empName = x.Day.Employee.FullName,
                 projId = x.Project.Id,
                 projName = x.Project.Name
-            })
-                                            .Select(y => new
-                                            {
-                                                employee = new MasterModel { Id = y.Key.empId, Name = y.Key.empName },
-                                                project = new MasterModel { Id = y.Key.projId, Name = y.Key.projName },
-                                                hours = y.Sum(h => h.Hours)
-                                            }).ToList();
+            }).Select(y => new
+            {
+                employee = new MasterModel { Id = y.Key.empId, Name = y.Key.empName },
+                project = new MasterModel { Id = y.Key.projId, Name = y.Key.projName },
+                hours = y.Sum(h => h.Hours)
+            }).ToList();
 
             EmployeeProjectModel epm = new EmployeeProjectModel(pList) { Employee = new MasterModel { Id = 0 } };
             foreach (var item in details)
@@ -97,16 +97,26 @@ namespace TimeKeeper.API.Reports
             return pmm;
         }
 
-        public ProjectMonthlyModel GetStored(int year, int month)
+        public async Task<ProjectMonthlyModel> GetStored(int year, int month)
         {
             ProjectMonthlyModel pmm = new ProjectMonthlyModel();
+            List<ProjectRawModel> rawData = new List<ProjectRawModel>();
 
             var cmd = _unit.Context.Database.GetDbConnection().CreateCommand();
-            cmd.CommandType = CommandType.Text;
-            cmd.CommandText = $"select * from MonthlylReport({year}, {month})";
+            if (Startup.Configuration["Connection:Type"] == "SQL")
+            {
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.CommandText = $"MonthlyReport";
+                cmd.Parameters.Add(new SqlParameter { ParameterName = "year", Value = year });
+                cmd.Parameters.Add(new SqlParameter { ParameterName = "month", Value = month });
+            }
+            else
+            {
+                cmd.CommandType = CommandType.Text;
+                cmd.CommandText = $"select * from MonthlylReport({year}, {month})";
+            }
             if (cmd.Connection.State == ConnectionState.Closed) cmd.Connection.Open();
-            DbDataReader sql = cmd.ExecuteReader();
-            List<ProjectRawModel> rawData = new List<ProjectRawModel>();
+            DbDataReader sql = await cmd.ExecuteReaderAsync();
 
             if (sql.HasRows)
             {

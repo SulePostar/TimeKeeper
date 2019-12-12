@@ -21,7 +21,7 @@ namespace TimeKeeper.Seed
                     Role = await unit.Roles.Get(Utility.dicRole[rawData.ReadString(row, 3)]),
                     HoursWeekly = rawData.ReadInteger(row, 4)
                 };
-                unit.Members.Insert(m);
+                await unit.Members.Insert(m);
                 N++;
             }
             await unit.Save();
