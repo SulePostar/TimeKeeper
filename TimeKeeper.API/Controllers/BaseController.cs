@@ -5,6 +5,7 @@ using TimeKeeper.DAL;
 
 namespace TimeKeeper.API.Controllers
 {
+    [Authorize]
     [ApiController]
     public class BaseController : ControllerBase
     {

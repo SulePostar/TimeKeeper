@@ -1,0 +1,50 @@
+body {
+  font-family: Verdana;
+  font-size: 10pt;
+  margin: 0;
+  padding: 102px 0 48px 0;
+}
+
+header, footer {
+  position: fixed;
+  color: white;
+  background-color: #036;
+  width: 100%;
+  z-index: 999;
+}
+
+header {
+  top: 0;
+  height: 84px
+}
+
+footer {
+  text-align: center;
+  bottom: 0;
+  font-size: 0.8em;
+  height: 32px;
+  padding-top: 6px;
+}
+
+.center {
+  display: table;
+  margin: 0 auto;
+}
+
+.menu {
+  text-align: right;
+  float: right;
+  margin-top: 36px;
+}
+
+.paper {
+  margin: 24px auto;
+  padding: 8px;
+  box-shadow: 6px 6px 18px 6px #ccc;
+}
+
+.title {
+  text-align: center;
+  font-size: 2em;
+  margin: 12px 12px 24px 0;
+}

@@ -63,16 +63,16 @@ namespace TimeKeeper.API
             services.AddAuthentication("TokenAuthentication")
                     .AddScheme<AuthenticationSchemeOptions, TokenAuthenticationHandler>("TokenAuthentication", null);
 
-            services.AddAuthentication(options =>
-            {
-                options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-                options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-            }).AddJwtBearer(o =>
-            {
-                o.Authority = "https://localhost:44300";
-                o.Audience = "timekeeper";
-                o.RequireHttpsMetadata = false;
-            });
+            //services.AddAuthentication(options =>
+            //{
+            //    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+            //    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+            //}).AddJwtBearer(o =>
+            //{
+            //    o.Authority = "https://localhost:44300";
+            //    o.Audience = "timekeeper";
+            //    o.RequireHttpsMetadata = false;
+            //});
         }
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
