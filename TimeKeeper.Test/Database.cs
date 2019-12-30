@@ -19,7 +19,7 @@ namespace TimeKeeper.Test
         public static async Task Setup()
         {
             fileLocation = @"C:\TimeKeeper\TimeTest.xlsx";
-            Context = new TimeContext("User ID=postgres; Password=osmanaga; Server=localhost; Port=5432; Database=testera; Integrated Security=true; Pooling=true;");
+            Context = new TimeContext("PGS", "User ID=postgres; Password=osmanaga; Server=localhost; Port=5432; Database=testera; Integrated Security=true; Pooling=true;");
             Context.Database.EnsureDeleted();
             Context.Database.EnsureCreated();
             FileInfo file = new FileInfo(fileLocation);

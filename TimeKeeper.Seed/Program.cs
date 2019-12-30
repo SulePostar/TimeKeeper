@@ -10,8 +10,8 @@ namespace TimeKeeper.Seed
 {
     class Program
     {
-        static readonly string fileLocation = @"C:\TimeKeeper\TimeKeeper.xlsx";
-        static readonly string conStr = "User ID=postgres; Password=osmanaga; Server=localhost; Port=5432; Database=tracker; Integrated Security=true; Pooling=true;";
+        static readonly string fileLocation = @"D:\Projects\TimeKeeper\TimeKeeper.xlsx";
+        //static readonly string pgsStr = "User ID=postgres; Password=osmanaga; Server=localhost; Port=5432; Database=tracker; Integrated Security=true; Pooling=true;";
         static readonly string sqlStr = @"Server=.\SqlExpress;Database=TimeKeeper;Trusted_Connection=True;MultipleActiveResultSets=true";
 
 
