@@ -2,33 +2,12 @@ body {
   font-family: Verdana;
   font-size: 10pt;
   margin: 0;
-  padding: 102px 0 48px 0;
+  padding: 132px 0 48px 0;
 }
 
-header, footer {
-  position: fixed;
-  color: white;
-  background-color: #036;
-  width: 100%;
-  z-index: 999;
-}
-
-header {
-  top: 0;
-  height: 84px
-}
-
-footer {
-  text-align: center;
-  bottom: 0;
-  font-size: 0.8em;
-  height: 32px;
-  padding-top: 6px;
-}
-
-.center {
+.picture {
   display: table;
-  margin: 0 auto;
+  margin: 24px auto;
 }
 
 .menu {

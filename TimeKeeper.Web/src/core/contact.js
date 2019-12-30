@@ -1,10 +1,8 @@
 import React, { Component } from 'react'
 import Container from 'react-bootstrap/Container'
-import { list, send } from '../services/apiServices'
+import { send } from '../services/apiServices'
 import Button from 'react-bootstrap/Button'
-import FormText from 'react-bootstrap/FormText'
-import Text from 'Styles/text'
-import Area from 'Styles/area'
+import Form from 'react-bootstrap/Form'
 
 const styles = {
   card: {
@@ -16,7 +14,7 @@ const styles = {
   table: {
     width: '100%',
     padding: '8px'
-  },
+  }, 
   detail: {
     width: '100%',
     padding: '8px'
@@ -48,17 +46,18 @@ class Contact extends Component {
     this.state = {
       name: '',
       email: '',
+      phone: '',
       message: ''
     }
   }
 
   componentDidMount = () => {
-    this.setState({
-      name: 'abc',
-      email: 'abc',
-      phone: '1234567890',
-      message: 'abc'
-    })
+    // this.setState({
+    //   name: 'haj',
+    //   email: 'nehaj@dot.com',
+    //   phone: 'jah',
+    //   message: 'jahen'
+    // })
   }
 
   handleChange = name => event => {
@@ -67,62 +66,36 @@ class Contact extends Component {
   }
 
   handleSubmit = () => {
-    const mail = {
-      name: this.state.name,
-      email: this.state.email,
-      phone: this.state.phone,
-      message: this.state.message
-    }
-    // list(res => { console.log(res.data) })
-    send(mail, res => console.log(res))
+    send(this.state, res => console.log(res))
   }
 
   render() {
     return (
       <Container>
-        <div style={styles.title}>Contact</div>
-        <div style={styles.card}>
-          <table style={styles.table}><tbody>
-            <tr>
-              <td style={styles.half} rowSpan='2'>
-                <table style={styles.table}><tbody>
-                  <tr>
-                    <td style={styles.detail}>
-                      <label>Name: <Text name='name' value={this.state.name} onChange={this.handleChange('name')} /></label>
-                    </td>
-                  </tr>
-                  <tr><td>&nbsp;</td></tr>
-                  <tr>
-                    <td style={styles.detail}>
-                      <label>Email address: <Text name='email' value={this.state.email} onChange={this.handleChange('email')} /></label>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td style={styles.detail}>
-                      <label>Phone number: <Text name='phone' value={this.state.email} onChange={this.handleChange('phone')} /></label>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td style={styles.detail}>
-                      <label>Message:<br /><Area name='message' rows='5' value={this.state.message} onChange={this.handleChange('message')}></Area></label>
-                    </td>
-                  </tr>
-                </tbody></table>
-              </td>
-              <td style={styles.half}>
-                &nbsp;<br />
+        <div className='title'>Contact</div>
+        <Form>
+          <Form.Group controlId='name'>
+            <Form.Label>Full name:</Form.Label>
+            <Form.Control type='text' placeholder='your name here' value={this.state.name} onChange={this.handleChange('name')} />
+          </Form.Group>
+          <Form.Group controlId='email'>
+            <Form.Label>E-mail address:</Form.Label>
+            <Form.Control type='email' placeholder='your email here' value={this.state.email} onChange={this.handleChange('email')} />
+          </Form.Group>
+          <Form.Group controlId='phone'>
+            <Form.Label>Phone number:</Form.Label>
+            <Form.Control type='text' placeholder='your phone here'value={this.state.phone} onChange={this.handleChange('phone')}  />
+          </Form.Group>
+          <Form.Group controlId='message'>
+            <Form.Label>Your message:</Form.Label>
+            <Form.Control as='textarea' rows='3' value={this.state.message} onChange={this.handleChange('message')} />
+          </Form.Group>
+          <Button variant="primary" type="submit" onClick={this.handleSubmit}>Send Message</Button>
+        </Form>
                 <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
                 <p>Id faucibus nisl tincidunt eget nullam non.Eros donec ac odio tempor orci dapibus.</p>
                 <p>Aenean sed adipiscing diam donec adipiscing tristique risus nec.</p>
-              </td>
-            </tr>
-            <tr>
-              <td style={styles.center}>
                 <Button onClick={this.handleSubmit}>Send Message</Button>
-              </td>
-            </tr>
-          </tbody></table>
-        </div>
       </Container>
     )
   }

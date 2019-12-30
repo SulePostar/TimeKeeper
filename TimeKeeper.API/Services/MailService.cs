@@ -20,7 +20,7 @@ namespace TimeKeeper.API.Services
                 Timeout = 10000,
                 DeliveryMethod = SmtpDeliveryMethod.Network,
                 UseDefaultCredentials = false,
-                Credentials = new NetworkCredential("ntg.infodesk@gmail.com", "Company19892016")
+                Credentials = new NetworkCredential("ntg.infodesk@gmail.com", "Company19892019")
             };
 
             MailMessage message = new MailMessage("ntg.infodesk@gmail.com", Startup.Configuration["contactMail"], subject, body);

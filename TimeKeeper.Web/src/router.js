@@ -5,6 +5,8 @@ import Home from './core/home'
 import Services from './core/services'
 import Team from './core/team'
 import Contact from './core/contact'
+import Login from './auth/login'
+import Logout from './auth/logout'
 
 class Router extends Component {
     render() {
@@ -15,6 +17,8 @@ class Router extends Component {
                     <Route path="/services" component={Services} />
                     <Route path="/team" component={Team} />
                     <Route path="/contact" component={Contact} />
+                    <Route path="/login" component={Login} />
+                    <Route path="/logout" component={Logout} />
                 </Switch>
             </div>
         )

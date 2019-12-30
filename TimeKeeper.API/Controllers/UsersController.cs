@@ -38,6 +38,7 @@ namespace TimeKeeper.API.Controllers
             try
             {
                 var query = await Unit.Users.Get();
+                var user = CurrentUser;
                 return Ok(query.Select(x => x.Create()).ToList().OrderBy(x => x.Name));
             }
             catch (Exception ex)

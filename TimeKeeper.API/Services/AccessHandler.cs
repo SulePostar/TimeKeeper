@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 using System;
 using System.Collections.Generic;
@@ -40,6 +41,7 @@ namespace TimeKeeper.API.Services
                 Subject = new ClaimsIdentity(new Claim[] {
                     new Claim("sub", user.Id.ToString()),
                     new Claim("name", user.Name),
+                    new Claim("username", user.Username),
                     new Claim("role", user.Role)
                 }),
                 Expires = DateTime.UtcNow.AddDays(7),
@@ -50,22 +52,25 @@ namespace TimeKeeper.API.Services
 
         public AuthenticationTicket CheckToken(string parameter, string scheme, IHeaderDictionary headers)
         {
-            var handler = new JwtSecurityTokenHandler();
+            JwtSecurityTokenHandler handler = new JwtSecurityTokenHandler();
             var token = handler.ReadJwtToken(parameter).Payload.ToArray();
             var claims = new[]
             {
                 new Claim("id", token.FirstOrDefault(c => c.Key == "sub").Value.ToString()),
                 new Claim("name", token.FirstOrDefault(c => c.Key == "name").Value.ToString()),
+                new Claim("username", token.FirstOrDefault(c => c.Key == "username").Value.ToString()),
                 new Claim("role", token.FirstOrDefault(c => c.Key == "role").Value.ToString()),
             };
-            headers.Add("IsAuthenticated", "true");
-            headers.Add("UserId", claims[0].Value);
-            headers.Add("UserName", claims[1].Value);
-            headers.Add("UserRole", claims[2].Value);
+            headers.Add("IsAuth", "true");
+            headers.Add("Id", claims[0].Value);
+            headers.Add("Name", claims[1].Value);
+            headers.Add("Username", claims[2].Value);
+            headers.Add("Role", claims[3].Value);
 
-            var identity = new ClaimsIdentity(claims, scheme);
-            var principal = new ClaimsPrincipal(identity);
-            return new AuthenticationTicket(principal, scheme);
+            ClaimsIdentity identity = new ClaimsIdentity(claims, scheme);
+            ClaimsPrincipal principal = new ClaimsPrincipal(identity);
+            AuthenticationTicket ticket = new AuthenticationTicket(principal, scheme);
+            return ticket;
         }
     }
 }
