@@ -5,6 +5,7 @@ using System.Security.Claims;
 using TimeKeeper.API.Models;
 using TimeKeeper.API.Services;
 using TimeKeeper.DAL;
+using TimeKeeper.Domain;
 
 namespace TimeKeeper.API.Controllers
 {
@@ -14,25 +15,21 @@ namespace TimeKeeper.API.Controllers
     {
         protected readonly UnitOfWork Unit;
         protected readonly AccessHandler Access;
-        protected UserModel CurrentUser;
+        public new UserModel User;
 
         public BaseController(TimeContext context)
         {
             Unit = new UnitOfWork(context);
             Access = new AccessHandler(Unit);
-
-            if (User != null)
+            if (CurrentUser.Id != 0)
             {
-                var userId = User.FindFirst(ClaimTypes.NameIdentifier);
-                var userName = User.FindFirst(ClaimTypes.Name);
-                //CurrentUser = new UserModel();
-                //if (User != null)
-                //{
-                //    CurrentUser.Id = int.Parse(User.Claims.FirstOrDefault(c => c.Type == "sub").Value);
-                //    CurrentUser.Name = User.Claims.FirstOrDefault(c => c.Type == "name").Value;
-                //    CurrentUser.Username = User.Claims.FirstOrDefault(c => c.Type == "username").Value;
-                //    CurrentUser.Role = User.Claims.FirstOrDefault(c => c.Type == "role").Value;
-                //}
+                User = new UserModel
+                {
+                    Id = CurrentUser.Id,
+                    Name = CurrentUser.Name,
+                    Username = CurrentUser.User,
+                    Role = CurrentUser.Role
+                };
             }
         }
     }

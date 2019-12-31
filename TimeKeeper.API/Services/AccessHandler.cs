@@ -67,9 +67,16 @@ namespace TimeKeeper.API.Services
             headers.Add("Username", claims[2].Value);
             headers.Add("Role", claims[3].Value);
 
+            CurrentUser.Id = int.Parse(claims[0].Value);
+            CurrentUser.Name = claims[1].Value;
+            CurrentUser.User = claims[2].Value;
+            CurrentUser.Role = claims[3].Value;
+
             ClaimsIdentity identity = new ClaimsIdentity(claims, scheme);
             ClaimsPrincipal principal = new ClaimsPrincipal(identity);
             AuthenticationTicket ticket = new AuthenticationTicket(principal, scheme);
+            var user = principal.Identity.IsAuthenticated;
+            var unam = principal.Identity.Name;
             return ticket;
         }
     }
